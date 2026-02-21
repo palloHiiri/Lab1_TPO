@@ -5,10 +5,11 @@ import ru.itmo.exception.IncorrectActionParticipantException;
 public class ActionResume implements Action {
 
         @Override
-        public void happen(String name) throws IncorrectActionParticipantException {
+        public String happen(String name) throws IncorrectActionParticipantException {
+            String result = "";
             if(name.equals("Бомбардировка")){
-
-                System.out.println(name + " возобновилась");
+                result = name + " возобновилась";
+                return result;
             }else {
                 throw new IncorrectActionParticipantException();
             }

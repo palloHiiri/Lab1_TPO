@@ -1,13 +1,15 @@
 package ru.itmo.entity;
 
 import lombok.Getter;
+import lombok.Setter;
 import ru.itmo.action.ActionResume;
 import ru.itmo.exception.IncorrectActionParticipantException;
 
+@Setter
 @Getter
 public class Bombing {
-    public String name;
-    public boolean isResumed;
+    private String name;
+    private boolean isResumed;
 
 
     public Bombing(String name) {
@@ -15,13 +17,11 @@ public class Bombing {
         this.isResumed = false;
     }
 
-    public void resume(String name) throws IncorrectActionParticipantException {
+    public String resume(String name) throws IncorrectActionParticipantException {
         ActionResume action = new ActionResume();
-        action.happen(name);
-        isResumed(true);
+        setResumed(true);
+        return action.happen(name);
+
     }
 
-    public void isResumed(boolean resumed){
-        isResumed = resumed;
-    }
 }

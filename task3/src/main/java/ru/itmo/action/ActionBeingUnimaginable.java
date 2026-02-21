@@ -5,9 +5,11 @@ import ru.itmo.exception.IncorrectActionParticipantException;
 public class ActionBeingUnimaginable implements Action {
 
     @Override
-    public void happen(String name) throws IncorrectActionParticipantException {
+    public String happen(String name) throws IncorrectActionParticipantException {
+        String result = "";
         if(name.equals("Жара и шум")) {
-            System.out.println(name + " были невообразимыми");
+            result = name + " были невообразимыми";
+            return result;
         }else {
             throw new IncorrectActionParticipantException();
         }

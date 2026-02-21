@@ -1,31 +1,32 @@
 package ru.itmo.entity;
 
+import lombok.Getter;
+import lombok.Setter;
 import ru.itmo.action.ActionDestroy;
 import ru.itmo.exception.BombingNotResumedException;
 import ru.itmo.exception.IncorrectActionParticipantException;
 
+@Getter
+@Setter
 public class ComputerBank {
 
-    public boolean isDestroyed;
-    public String bankName;
+    private boolean isDestroyed;
+    private String bankName;
 
     public ComputerBank(String bankName) {
         this.bankName = bankName;
         this.isDestroyed = false;
     }
 
-    public void destroy(String bankName, Bombing bombing) throws BombingNotResumedException, IncorrectActionParticipantException {
+    public String destroy(String bankName, Bombing bombing) throws BombingNotResumedException, IncorrectActionParticipantException {
         ActionDestroy action = new ActionDestroy();
-        if(bombing.isResumed){
-            action.happen(bankName);
-            isDestroyed(true);
+        if(bombing.isResumed()){
+            setDestroyed(true);
+            return action.happen(bankName);
+
         }else {
             throw new BombingNotResumedException();
         }
-    }
-
-    public void isDestroyed(boolean destroyed) {
-        isDestroyed = destroyed;
     }
 
 

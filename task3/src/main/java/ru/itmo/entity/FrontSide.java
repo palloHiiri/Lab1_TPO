@@ -1,8 +1,12 @@
 package ru.itmo.entity;
 
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class FrontSide {
-    public String name;
+    private String name;
 
     public FrontSide(String name) {
         this.name = name;
