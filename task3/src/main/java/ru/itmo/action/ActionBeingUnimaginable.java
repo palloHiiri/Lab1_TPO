@@ -1,6 +1,7 @@
 package ru.itmo.action;
 
 import ru.itmo.exception.IncorrectActionParticipantException;
+import ru.itmo.entity.*;
 
 public class ActionBeingUnimaginable implements Action {
 
