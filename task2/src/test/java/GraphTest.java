@@ -64,8 +64,8 @@ class GraphTest {
     }
 
     @Test
-    @DisplayName("Простой тест")
-    void testLoop() {
+    @DisplayName("Неориентированный граф")
+    void testNotDirectedGraph() {
         int[][] mat = {
                 {10, 10, 25, 0},
                 {10, 0, 0, 15},
@@ -158,4 +158,14 @@ class GraphTest {
         assertTrue(breadcrumbs.contains("Checking vertex 2: current distance = 5, new distance = 11"));
     }
 
+    @Test
+    @DisplayName("Тест на граф c одной вершиной")
+    void testSingleVertexGraph() {
+        int[][] mat = {
+                {0}
+        };
+        Graph graph = new Graph(mat, mat.length);
+        int[] distances = Graph.shortestPath(graph, 0);
+        assertArrayEquals(new int[]{0}, distances);
+    }
 }
