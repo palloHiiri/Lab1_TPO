@@ -8,7 +8,7 @@ public class ActionDestroy implements  Action {
     public String happen(String name) throws IncorrectActionParticipantException {
         if(name.equals("Компьютерный банк")){
 
-            return (name + " начал понемногу разваливаться на куски");
+            return (name + " начал понемногу разваливаться на куски. ");
         }else {
             throw new IncorrectActionParticipantException();
         }

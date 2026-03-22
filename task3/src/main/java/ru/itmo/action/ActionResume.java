@@ -8,7 +8,7 @@ public class ActionResume implements Action {
         public String happen(String name) throws IncorrectActionParticipantException {
             String result = "";
             if(name.equals("Бомбардировка")){
-                result = name + " возобновилась";
+                result = name + " возобновилась. ";
                 return result;
             }else {
                 throw new IncorrectActionParticipantException();

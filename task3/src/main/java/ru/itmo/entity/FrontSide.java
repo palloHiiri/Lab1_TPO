@@ -1,10 +1,10 @@
 package ru.itmo.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import ru.itmo.action.ActionMelt;
 import ru.itmo.exception.ComputerBankNotDestroyedException;
+import ru.itmo.exception.NoStateForSituationException;
 import ru.itmo.exception.NotTooHotException;
 import ru.itmo.exception.IncorrectActionParticipantException;
 
@@ -22,7 +22,14 @@ public class FrontSide {
         this.name = name;
     }
 
-    public String melt(double temperature, ComputerBank computerBank) throws IncorrectActionParticipantException, NotTooHotException, ComputerBankNotDestroyedException {
+    public FrontSide(String name, Metal metal, Corner corner) {
+        this.name = name;
+        this.metal = metal;
+        this.corner = corner;
+    }
+
+
+    public String melt(double temperature, ComputerBank computerBank) throws IncorrectActionParticipantException, NotTooHotException, ComputerBankNotDestroyedException, NoStateForSituationException {
         if(!computerBank.isDestroyed()){
             throw new ComputerBankNotDestroyedException();
         }

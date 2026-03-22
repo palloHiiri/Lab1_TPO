@@ -155,8 +155,7 @@ class GraphTest {
         assertTrue(breadcrumbs.contains("Marked Vertex 0 as known"));
         assertTrue(breadcrumbs.contains("Updated distance for vertex 1 to 1"));
         assertTrue(breadcrumbs.contains("Updated distance for vertex 2 to 5"));
-        assertTrue(
-                breadcrumbs.contains("Checking vertex 2: current distance = 5, new distance = 11"));
+        assertTrue(breadcrumbs.contains("Checking vertex 2: current distance = 5, new distance = 11"));
     }
 
 }

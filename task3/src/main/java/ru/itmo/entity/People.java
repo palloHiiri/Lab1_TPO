@@ -1,7 +1,6 @@
 package ru.itmo.entity;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import ru.itmo.action.ActionPanic;
 import ru.itmo.exception.IncorrectActionParticipantException;
@@ -17,19 +16,23 @@ public class People {
     private List<String> names;
     private FrontSide frontSide;
     private State state;
+    private Corner corner;
 
-    public People(List<String> names, FrontSide frontSide) {
+    public People(List<String> names, FrontSide frontSide, Corner corner) {
         this.names = names;
         this.frontSide = frontSide;
+        this.corner = corner;
     }
 
     public String act(String globalName) throws NotEnoughPeopleException, NoStateForSituationException, IncorrectActionParticipantException {
-        ActionPanic action = new ActionPanic(state, frontSide);
+        ActionPanic action = new ActionPanic(state, frontSide, this, corner);
         if (names.size() < 2){
             throw new NotEnoughPeopleException();
         }
         return action.happen(globalName);
     }
+
+
 
 
 }

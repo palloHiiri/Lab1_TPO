@@ -4,9 +4,11 @@ import lombok.Getter;
 
 @Getter
 public enum State {
-    BEFORE_BOMBING(" сидели."),
+    DEFAULT(""),
+    SITTING(" сидели. "),
     WAITING(" стали ждать конца."),
     PANIC(" сгрудились плотнее");
+
     State(String description) {
         this.description = description;
     }

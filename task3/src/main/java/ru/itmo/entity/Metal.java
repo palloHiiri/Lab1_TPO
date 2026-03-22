@@ -2,7 +2,6 @@ package ru.itmo.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 
@@ -12,6 +11,4 @@ import lombok.Setter;
 public class Metal {
     private Double currentX;
     private Double currentY;
-
-
 }

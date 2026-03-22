@@ -1,11 +1,12 @@
 package ru.itmo.entity;
 
-import lombok.AllArgsConstructor;
+import lombok.Generated;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
 @Getter
+@Setter
+@Generated
 public class Corner {
     private  double x;
     private double y;

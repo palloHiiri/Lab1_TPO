@@ -13,7 +13,7 @@ public class ModelTest {
     public void testBombingResume() throws Exception {
         Bombing bombing = new Bombing("Бомбардировка");
         String result = bombing.resume(bombing.getName());
-        assertEquals("Бомбардировка возобновилась", result);
+        assertEquals("Бомбардировка возобновилась. ", result);
         assertTrue(bombing.isResumed());
     }
 
@@ -21,7 +21,7 @@ public class ModelTest {
     public void testHeatAndNoiseBeing() throws Exception {
         HeatAndNoise heatAndNoise = new HeatAndNoise("Жара и шум");
         String result = heatAndNoise.being(heatAndNoise.getName());
-        assertEquals("Жара и шум были невообразимыми", result);
+        assertEquals("Жара и шум были невообразимыми. ", result);
     }
 
     @Test
@@ -30,7 +30,7 @@ public class ModelTest {
         bombing.setResumed(true);
         ComputerBank computerBank = new ComputerBank("Компьютерный банк");
         String result = computerBank.destroy(computerBank.getBankName(), bombing);
-        assertEquals("Компьютерный банк начал понемногу разваливаться на куски", result);
+        assertEquals("Компьютерный банк начал понемногу разваливаться на куски. ", result);
         assertTrue(computerBank.isDestroyed());
 
     }
@@ -48,7 +48,7 @@ public class ModelTest {
         frontSide.setTemperature(900.0);
         String result = frontSide.melt(frontSide.getTemperature(), computerBank);
         assertEquals("Лицевая сторона его почти вся расплавилась, и густые ручейки расплавленного " +
-                "металла начали заползать в угол,", result);
+                "металла начали заползать в угол, ", result);
         assertTrue(frontSide.isMelted());
         assertTrue(frontSide.isMetalFlowing());
         assertEquals(10.0, metal.getCurrentX());
@@ -58,14 +58,14 @@ public class ModelTest {
     @Test
     public void testPeople() throws Exception {
         FrontSide frontSide = new FrontSide("Лицевая сторона его");
+        Corner corner = new Corner(10.0, 20.0);
         List<String> names = List.of("Генри", "Алекс", "Кира");
-        People people = new People(names, frontSide);
-        String result = people.act("они");
-        assertEquals("в котором они сидели.", result);
         frontSide.setMetalFlowing(true);
         frontSide.setMelted(true);
-        result = people.act("Они");
-        people.setFrontSide(frontSide);
-        assertEquals("Они сгрудились плотнее и стали ждать конца.", result);
+        frontSide.setTemperature(1200.0);
+        corner.setFilled(true);
+        People people = new People(names, frontSide, corner);
+        String result = people.act("Они");
+        assertEquals("в котором Они сидели. Они сгрудились плотнее и стали ждать конца.", result);
     }
 }
