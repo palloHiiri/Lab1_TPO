@@ -14,12 +14,7 @@ public class ActionDestroy implements  Action {
 
     @Override
     public String happen() throws IncorrectActionParticipantException {
-        if(computerBank.getBankName().equals("Компьютерный банк")){
-
-            return (computerBank.getBankName() + " начал понемногу разваливаться на куски. ");
-        }else {
-            throw new IncorrectActionParticipantException();
-        }
+         return (computerBank.getBankName() + " начал понемногу разваливаться на куски. ");
     }
 
 

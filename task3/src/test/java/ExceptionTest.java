@@ -17,29 +17,21 @@ public class ExceptionTest {
     @Test
     public void testFrontSideMeltingFalse() throws Exception {
         FrontSide frontSide = new FrontSide("Лицевая сторона его");
-        assertThrows(ComputerBankNotDestroyedException.class, () -> frontSide.melt(900.0, new ComputerBank("Компьютерный банк")));
+        assertThrows(ComputerBankNotDestroyedException.class, () -> frontSide.melt(new ComputerBank("Компьютерный банк")));
     }
 
     @Test
     public void testNotTooHot() throws Exception{
         ComputerBank computerBank = new ComputerBank("Компьютерный банк");
         computerBank.setDestroyed(true);
-        FrontSide frontSide = new FrontSide("Лицевая сторона его");
-        assertThrows(NotTooHotException.class, () -> frontSide.melt(700.0, computerBank));
+        FrontSide frontSide = new FrontSide("Лицевая сторона его", new Metal(0.0, 0.0), new Corner(10.0, 20.0), 800.0);
+        assertThrows(NotTooHotException.class, () -> frontSide.melt(computerBank));
     }
 
     @Test
     public void testIncorrectParticipant() throws Exception {
         Bombing bombing = new Bombing("Не та бомбардировка");
-        ComputerBank computerBank = new ComputerBank("Компьютерный не банк");
-        FrontSide frontSide = new FrontSide("Не та лицевая сторона его");
-        HeatAndNoise heatAndNoise = new HeatAndNoise("Не та жара и шум");
-        People people = new People(List.of("Генри", "Алекс"), frontSide, "Не они");
         assertThrows(IncorrectActionParticipantException.class,() -> bombing.resume(bombing.getName()));
-        assertThrows(IncorrectActionParticipantException.class,() -> computerBank.destroy(bombing));
-        assertThrows(IncorrectActionParticipantException.class,() -> frontSide.melt(900.0, computerBank));
-        assertThrows(IncorrectActionParticipantException.class, heatAndNoise::being);
-        assertThrows(IncorrectActionParticipantException.class, people::act);
     }
 
     @Test
@@ -50,29 +42,56 @@ public class ExceptionTest {
 
     @Test
     public void testStrangeState() throws Exception {
-        FrontSide frontSide = new FrontSide("Лицевая сторона его", new Metal(0.0, 0.0), new Corner(10.0, 20.0));
+        FrontSide frontSide = new FrontSide("Лицевая сторона его", new Metal(0.0, 0.0), new Corner(10.0, 20.0), 900.0);
+        People people = new People(List.of("Генри", "Алекс"), frontSide, "Они");
+        assertThrows(NoStateForSituationException.class, people::sit);
+        frontSide.setMelted(true);
+        assertThrows(NoStateForSituationException.class, people::sit);
+        frontSide.setMetalFlowing(true);
+        frontSide.setMelted(false);
+        assertThrows(NoStateForSituationException.class, people::sit);
+    }
+
+    @Test
+    public void testStrangeStateWhilePanic() throws Exception {
+        FrontSide frontSide = new FrontSide("Лицевая сторона его", new Metal(0.0, 0.0), new Corner(10.0, 20.0), 900.0);
         People people = new People(List.of("Генри", "Алекс"), frontSide, "Они");
         assertThrows(NoStateForSituationException.class, people::act);
-        frontSide.setMelted(true);
-        assertThrows(NoStateForSituationException.class, people::act);
-        frontSide.setMetalFlowing(true);
-        frontSide.setTemperature(100.0);
-        assertThrows(NoStateForSituationException.class, people::act);
         frontSide.setTemperature(1400.0);
+        assertThrows(NoStateForSituationException.class, people::act);
+        frontSide.setTemperature(1000.0);
+        frontSide.getCorner().setFilled(true);
         assertThrows(NoStateForSituationException.class, people::act);
 
     }
 
     @Test
     public void testMelted() throws Exception {
-        FrontSide frontSide = new FrontSide("Лицевая сторона его");
+        FrontSide frontSide = new FrontSide("Лицевая сторона его", new Metal(0.0, 0.0), new Corner(10.0, 20.0), 900.0);
         ComputerBank computerBank = new ComputerBank("Компьютерный банк");
         computerBank.setDestroyed(true);
         frontSide.setMelted(true);
-        assertThrows(NoStateForSituationException.class, () -> frontSide.melt(900.0, computerBank));
-        frontSide.setMelted(false);
-        frontSide.setMetalFlowing(true);
-        assertThrows(NoStateForSituationException.class, () -> frontSide.melt(900.0, computerBank));
+        assertThrows(NoStateForSituationException.class, () -> frontSide.melt(computerBank));
     }
 
+    @Test
+    public void testFlowing() throws Exception {
+        FrontSide frontSide = new FrontSide("Лицевая сторона его", new Metal(0.0, 0.0), new Corner(10.0, 20.0), 1300.0);
+        ComputerBank computerBank = new ComputerBank("Компьютерный банк");
+        frontSide.setMelted(true);
+        computerBank.setDestroyed(true);
+        frontSide.setMetalFlowing(true);
+        assertThrows(NoStateForSituationException.class, frontSide::flow);
+    }
+
+    @Test
+    public void testNotMelted() throws Exception {
+        FrontSide frontSide = new FrontSide("Лицевая сторона его", new Metal(0.0, 0.0), new Corner(10.0, 20.0), 1300.0);
+        ComputerBank computerBank = new ComputerBank("Компьютерный банк");
+        computerBank.setDestroyed(true);
+        assertThrows(NotMeltedException.class, frontSide::flow);
+        frontSide.setMelted(false);
+        frontSide.setTemperature(1000.0);
+        assertThrows(NotMeltedException.class, frontSide::flow);
+    }
 }

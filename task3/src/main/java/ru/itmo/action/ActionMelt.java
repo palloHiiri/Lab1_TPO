@@ -17,10 +17,6 @@ public class ActionMelt implements Action {
     @Override
     public String happen() throws IncorrectActionParticipantException, NotTooHotException, NoStateForSituationException {
 
-        if(!frontSide.getName().equals("Лицевая сторона его")){
-            throw new IncorrectActionParticipantException();
-        }
-
         if (!frontSide.isMelted()) {
             frontSide.setMelted(true);
             frontSide.setTemperature(frontSide.getTemperature() + 400.0);

@@ -7,6 +7,7 @@ import ru.itmo.action.ActionSit;
 import ru.itmo.exception.IncorrectActionParticipantException;
 import ru.itmo.exception.NoStateForSituationException;
 import ru.itmo.exception.NotEnoughPeopleException;
+import ru.itmo.util.NameValidation;
 import ru.itmo.util.State;
 
 import java.util.List;
@@ -25,19 +26,24 @@ public class People {
         this.name = name;
     }
 
-    public String act() throws NotEnoughPeopleException, NoStateForSituationException, IncorrectActionParticipantException {
-        ActionPanic actionPanic = new ActionPanic( this);
-        if (names.size() < 2){
+    private void numberOfPeople() throws NotEnoughPeopleException {
+        if(names.size() < 2) {
             throw new NotEnoughPeopleException();
         }
+    }
+
+    public String act() throws NotEnoughPeopleException, NoStateForSituationException, IncorrectActionParticipantException {
+        NameValidation.validateName(name, "Они");
+
+        ActionPanic actionPanic = new ActionPanic( this);
+        numberOfPeople();
         return actionPanic.happen();
     }
 
     public String sit() throws NoStateForSituationException, IncorrectActionParticipantException, NotEnoughPeopleException {
+        NameValidation.validateName(name, "Они");
         ActionSit actionSit = new ActionSit(this);
-        if (names.size() < 2){
-            throw new NotEnoughPeopleException();
-        }
+        numberOfPeople();
         return actionSit.happen();
     }
 

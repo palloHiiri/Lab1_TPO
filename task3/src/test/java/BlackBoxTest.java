@@ -12,7 +12,7 @@ public class BlackBoxTest {
     ComputerBank computerBank = new ComputerBank("Компьютерный банк");
     Corner corner = new Corner(10.0, 20.0);
     Metal metal = new Metal(0.0, 0.0);
-    FrontSide frontSide = new FrontSide("Лицевая сторона его", metal, corner);
+    FrontSide frontSide = new FrontSide("Лицевая сторона его", metal, corner, 900.0);
     People people = new People(List.of("Генри", "Алекс"), frontSide, "Они");
 
     @Test
@@ -21,10 +21,14 @@ public class BlackBoxTest {
         String result = bombing.resume(bombing.getName());
         result += heatAndNoise.being();
         result += computerBank.destroy(bombing);
-        result += frontSide.melt(900.0, computerBank);
+        result += frontSide.melt(computerBank);
         result += frontSide.flow();
         result += people.sit();
         result += people.act();
-        assertEquals("Бомбардировка возобновилась. Жара и шум были невообразимыми. Компьютерный банк начал понемногу разваливаться на куски. Лицевая сторона его почти вся расплавилась, и густые ручейки расплавленного металла начали заползать в угол, в котором Они сидели. Они сгрудились плотнее и стали ждать конца.", result);
+        assertEquals("Бомбардировка возобновилась. Жара и шум были невообразимыми. " +
+                "Компьютерный банк начал понемногу разваливаться на куски. " +
+                "Лицевая сторона его почти вся расплавилась," +
+                " и густые ручейки расплавленного металла начали заползать в угол, " +
+                "в котором Они сидели. Они сгрудились плотнее и стали ждать конца.", result);
     }
 }

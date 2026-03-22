@@ -5,6 +5,7 @@ import lombok.Setter;
 import ru.itmo.action.ActionDestroy;
 import ru.itmo.exception.BombingNotResumedException;
 import ru.itmo.exception.IncorrectActionParticipantException;
+import ru.itmo.util.NameValidation;
 
 @Getter
 @Setter
@@ -19,6 +20,7 @@ public class ComputerBank {
     }
 
     public String destroy(Bombing bombing) throws BombingNotResumedException, IncorrectActionParticipantException {
+        NameValidation.validateName(bankName, "Компьютерный банк");
         ActionDestroy action = new ActionDestroy(this);
         if(bombing.isResumed()){
             setDestroyed(true);

@@ -13,12 +13,6 @@ public class ActionBeingUnimaginable implements Action {
     private final HeatAndNoise heatAndNoise;
 
     public String happen() throws IncorrectActionParticipantException {
-        String result = "";
-        if(heatAndNoise.getName().equals("Жара и шум")) {
-            result = heatAndNoise.getName() + " были невообразимыми. ";
-            return result;
-        }else {
-            throw new IncorrectActionParticipantException();
-        }
+        return heatAndNoise.getName() + " были невообразимыми. ";
     }
 }

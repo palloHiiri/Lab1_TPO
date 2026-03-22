@@ -17,9 +17,7 @@ public class ActionPanic implements Action {
 
     @Override
     public String happen() throws NoStateForSituationException, IncorrectActionParticipantException {
-        if (!people.getName().equals("Они")){
-            throw new IncorrectActionParticipantException();
-        }
+
         if(people.getFrontSide().getTemperature() >= 1200 && people.getFrontSide().getCorner().isFilled()) {
             people.setState(State.PANIC);
             return people.getName() + State.PANIC.getDescription() + " и" + State.WAITING.getDescription();

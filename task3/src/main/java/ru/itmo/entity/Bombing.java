@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import ru.itmo.action.ActionResume;
 import ru.itmo.exception.IncorrectActionParticipantException;
+import ru.itmo.util.NameValidation;
 
 @Setter
 @Getter
@@ -18,6 +19,7 @@ public class Bombing {
     }
 
     public String resume(String name) throws IncorrectActionParticipantException {
+        NameValidation.validateName(name, "Бомбардировка");
         ActionResume action = new ActionResume(this);
         setResumed(true);
         return action.happen();

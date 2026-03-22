@@ -14,9 +14,6 @@ public class ActionSit implements  Action {
 
     @Override
     public String happen() throws NoStateForSituationException, IncorrectActionParticipantException {
-        if (!people.getName().equals("Они")){
-            throw new IncorrectActionParticipantException();
-        }
 
         if (people.getFrontSide().isMelted() && people.getFrontSide().isMetalFlowing()) {
             people.setState(State.SITTING);

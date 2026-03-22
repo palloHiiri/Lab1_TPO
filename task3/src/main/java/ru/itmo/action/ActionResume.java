@@ -13,12 +13,6 @@ public class ActionResume implements Action {
     private final Bombing bombing;
     @Override
     public String happen() throws IncorrectActionParticipantException {
-        String result = "";
-        if(bombing.getName().equals("Бомбардировка")){
-            result = bombing.getName() + " возобновилась. ";
-            return result;
-        }else {
-            throw new IncorrectActionParticipantException();
-        }
+        return bombing.getName() + " возобновилась. ";
     }
 }
