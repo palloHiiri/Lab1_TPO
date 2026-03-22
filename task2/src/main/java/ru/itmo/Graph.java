@@ -1,5 +1,7 @@
 package ru.itmo;
 
+import java.util.List;
+
 public class Graph {
     int[][] adjMatrix;
     int numOfVertices;
@@ -12,18 +14,20 @@ public class Graph {
     public static int getClosestVertex(int[] distance, boolean[] visited){
         int min = Integer.MAX_VALUE;
         int minIndx = -1;
-        for(int i = 0; i < distance.length; i++){
-            if(distance[i] < min){
-                if(!visited[i]){
-                    min = distance[i];
-                    minIndx = i;
-                }
+        for(int v = 0; v < distance.length; v++){
+            if(distance[v] < min && !visited[v]){
+                min = distance[v];
+                minIndx = v;
             }
         }
         return minIndx;
     }
 
     public static int[] shortestPath(Graph graph, int src){
+        return shortestPath(graph, src, null);
+    }
+
+    public static int[] shortestPath(Graph graph, int src, List<String> breadcrumbs){
         if(graph.numOfVertices <= 0 || graph.adjMatrix.length == 0)
             throw new IllegalArgumentException("Graph must have at least one vertex!");
 
@@ -38,27 +42,50 @@ public class Graph {
         }
 
         int[] distance = new int[graph.numOfVertices];
-        boolean[] visited = new boolean[graph.numOfVertices];
+        boolean[] known = new boolean[graph.numOfVertices];
 
         for(int v = 0; v < graph.numOfVertices; v++){
             distance[v] = Integer.MAX_VALUE;
-            visited[v] = false;
+            known[v] = false;
         }
         distance[src] = 0;
 
+        if(breadcrumbs != null){
+            breadcrumbs.add("Start Vertex: " + src);
+        }
+
         for(int v = 0; v < graph.numOfVertices; v++){
-            int closestVertex = getClosestVertex(distance, visited);
+            int closestVertex = getClosestVertex(distance, known);
+
             if(closestVertex == -1){
+                if(breadcrumbs != null){
+                    breadcrumbs.add("No more reachable vertices");
+                }
                 return distance;
             }
 
-            visited[closestVertex] = true;
+            if(breadcrumbs != null){
+                breadcrumbs.add("Visited Vertex: " + closestVertex + ", Distance: " + distance[closestVertex]);
+            }
+
+            known[closestVertex] = true;
+
+            if(breadcrumbs != null){
+                breadcrumbs.add("Marked Vertex " + closestVertex + " as known");
+            }
+
             for(int w = 0; w < graph.numOfVertices; w++){
-                if(!visited[w]){
+                if(!known[w]){
                     if(graph.adjMatrix[closestVertex][w] != 0){
                         int newDist = distance[closestVertex] + graph.adjMatrix[closestVertex][w];
+                        if(breadcrumbs != null){
+                            breadcrumbs.add("Checking vertex " + w + ": current distance = " + distance[w] + ", new distance = " + newDist);
+                        }
                         if(newDist < distance[w]){
                             distance[w] = newDist;
+                            if(breadcrumbs != null) {
+                                breadcrumbs.add("Updated distance for vertex " + w + " to " + newDist);
+                            }
                         }
                     }
                 }

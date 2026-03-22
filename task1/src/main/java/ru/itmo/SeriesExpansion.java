@@ -2,9 +2,6 @@ package ru.itmo;
 
 public class SeriesExpansion {
     private double factorial(int n){
-        if(n<0){
-            throw new IllegalArgumentException("n must be non-negative");
-        }
         return n == 0 ? 1 : n * factorial(n - 1);
     }
 

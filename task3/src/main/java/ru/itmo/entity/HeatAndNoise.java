@@ -5,7 +5,6 @@ import lombok.Setter;
 import ru.itmo.action.ActionBeingUnimaginable;
 import ru.itmo.exception.IncorrectActionParticipantException;
 
-@Setter
 @Getter
 @AllArgsConstructor
 public class HeatAndNoise {

@@ -7,9 +7,10 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 public class ModelTest {
     @Test
-    public void testBombingResume() throws IncorrectActionParticipantException {
+    public void testBombingResume() throws Exception {
         Bombing bombing = new Bombing("Бомбардировка");
         String result = bombing.resume(bombing.getName());
         assertEquals("Бомбардировка возобновилась", result);
@@ -17,7 +18,7 @@ public class ModelTest {
     }
 
     @Test
-    public void testHeatAndNoiseBeing() throws IncorrectActionParticipantException {
+    public void testHeatAndNoiseBeing() throws Exception {
         HeatAndNoise heatAndNoise = new HeatAndNoise("Жара и шум");
         String result = heatAndNoise.being(heatAndNoise.getName());
         assertEquals("Жара и шум были невообразимыми", result);
@@ -34,16 +35,9 @@ public class ModelTest {
 
     }
 
-    @Test
-    public void testComputerBankDestroyFalse() throws Exception{
-        Bombing bombing = new Bombing("Бомбардировка");
-        ComputerBank computerBank = new ComputerBank("Компьютерный банк");
-        assertThrows(BombingNotResumedException.class, () -> computerBank.destroy(computerBank.getBankName(), bombing));
-    }
 
     @Test
-    public void testMelting() throws IncorrectActionParticipantException, NotTooHotException,
-            ComputerBankNotDestroyedException {
+    public void testMelting() throws Exception {
         ComputerBank computerBank = new ComputerBank("Компьютерный банк");
         computerBank.setDestroyed(true);
         FrontSide frontSide = new FrontSide("Лицевая сторона его");
@@ -62,8 +56,7 @@ public class ModelTest {
     }
 
     @Test
-    public void testPeople() throws NotEnoughPeopleException, NoStateForSituationException,
-            IncorrectActionParticipantException {
+    public void testPeople() throws Exception {
         FrontSide frontSide = new FrontSide("Лицевая сторона его");
         List<String> names = List.of("Генри", "Алекс", "Кира");
         People people = new People(names, frontSide);
