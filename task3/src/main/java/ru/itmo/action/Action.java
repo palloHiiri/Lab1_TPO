@@ -5,5 +5,5 @@ import ru.itmo.exception.NoStateForSituationException;
 import ru.itmo.exception.NotTooHotException;
 
 public interface Action {
-    String happen(String name) throws IncorrectActionParticipantException, NotTooHotException, NoStateForSituationException;
+    String happen() throws IncorrectActionParticipantException, NotTooHotException, NoStateForSituationException;
 }

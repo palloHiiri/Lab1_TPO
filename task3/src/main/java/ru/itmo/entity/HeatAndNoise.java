@@ -10,10 +10,9 @@ import ru.itmo.exception.IncorrectActionParticipantException;
 public class HeatAndNoise {
     private String name;
 
-
-    public String being(String name) throws IncorrectActionParticipantException {
-        ActionBeingUnimaginable action = new ActionBeingUnimaginable();
-        return action.happen(name);
+    public String being() throws IncorrectActionParticipantException {
+        ActionBeingUnimaginable action = new ActionBeingUnimaginable(this);
+        return action.happen();
     }
 
 

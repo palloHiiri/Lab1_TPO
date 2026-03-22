@@ -18,11 +18,11 @@ public class ComputerBank {
         this.isDestroyed = false;
     }
 
-    public String destroy(String bankName, Bombing bombing) throws BombingNotResumedException, IncorrectActionParticipantException {
-        ActionDestroy action = new ActionDestroy();
+    public String destroy(Bombing bombing) throws BombingNotResumedException, IncorrectActionParticipantException {
+        ActionDestroy action = new ActionDestroy(this);
         if(bombing.isResumed()){
             setDestroyed(true);
-            return action.happen(bankName);
+            return action.happen();
 
         }else {
             throw new BombingNotResumedException();

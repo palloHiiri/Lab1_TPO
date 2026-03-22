@@ -18,9 +18,9 @@ public class Bombing {
     }
 
     public String resume(String name) throws IncorrectActionParticipantException {
-        ActionResume action = new ActionResume();
+        ActionResume action = new ActionResume(this);
         setResumed(true);
-        return action.happen(name);
+        return action.happen();
 
     }
 

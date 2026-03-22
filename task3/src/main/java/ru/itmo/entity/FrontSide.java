@@ -3,10 +3,9 @@ package ru.itmo.entity;
 import lombok.Getter;
 import lombok.Setter;
 import ru.itmo.action.ActionMelt;
-import ru.itmo.exception.ComputerBankNotDestroyedException;
-import ru.itmo.exception.NoStateForSituationException;
-import ru.itmo.exception.NotTooHotException;
-import ru.itmo.exception.IncorrectActionParticipantException;
+import ru.itmo.action.ActionMetalFlowing;
+import ru.itmo.action.ActionSit;
+import ru.itmo.exception.*;
 
 @Getter
 @Setter
@@ -28,18 +27,29 @@ public class FrontSide {
         this.corner = corner;
     }
 
-
     public String melt(double temperature, ComputerBank computerBank) throws IncorrectActionParticipantException, NotTooHotException, ComputerBankNotDestroyedException, NoStateForSituationException {
         if(!computerBank.isDestroyed()){
             throw new ComputerBankNotDestroyedException();
         }
         this.temperature = temperature;
 
-        ActionMelt action = new ActionMelt(this, metal, corner);
+        ActionMelt action = new ActionMelt(this);
         if(temperature > 800.0){
-            return action.happen(name);
+            return action.happen();
         } else {
             throw new NotTooHotException();
+        }
+    }
+
+    public String flow() throws NoStateForSituationException, IncorrectActionParticipantException, NotMeltedException {
+        if(!isMelted()){
+            throw new NoStateForSituationException();
+        }
+        ActionMetalFlowing action = new ActionMetalFlowing(this);
+        if(temperature > 1200.0){
+            return action.happen();
+        }else {
+            throw new NotMeltedException();
         }
     }
 

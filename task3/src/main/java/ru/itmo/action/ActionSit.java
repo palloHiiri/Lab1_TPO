@@ -1,18 +1,15 @@
 package ru.itmo.action;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import ru.itmo.entity.People;
 import ru.itmo.exception.IncorrectActionParticipantException;
 import ru.itmo.exception.NoStateForSituationException;
 import ru.itmo.util.State;
 
-@Getter
+@AllArgsConstructor
 @Setter
-@RequiredArgsConstructor
-public class ActionPanic implements Action {
-
+@Getter
+public class ActionSit implements  Action {
     private final People people;
 
     @Override
@@ -20,12 +17,12 @@ public class ActionPanic implements Action {
         if (!people.getName().equals("Они")){
             throw new IncorrectActionParticipantException();
         }
-        if(people.getFrontSide().getTemperature() >= 1200 && people.getFrontSide().getCorner().isFilled()) {
-            people.setState(State.PANIC);
-            return people.getName() + State.PANIC.getDescription() + " и" + State.WAITING.getDescription();
-        }else {
+
+        if (people.getFrontSide().isMelted() && people.getFrontSide().isMetalFlowing()) {
+            people.setState(State.SITTING);
+            return  "в котором " + people.getName() + State.SITTING.getDescription();
+        }else{
             throw new NoStateForSituationException();
         }
     }
-
 }

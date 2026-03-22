@@ -11,7 +11,7 @@ public class ExceptionTest {
     public void testComputerBankDestroyFalse() throws Exception{
         Bombing bombing = new Bombing("Бомбардировка");
         ComputerBank computerBank = new ComputerBank("Компьютерный банк");
-        assertThrows(Exception.class, () -> computerBank.destroy(computerBank.getBankName(), bombing));
+        assertThrows(Exception.class, () -> computerBank.destroy(bombing));
     }
 
     @Test
@@ -34,36 +34,32 @@ public class ExceptionTest {
         ComputerBank computerBank = new ComputerBank("Компьютерный не банк");
         FrontSide frontSide = new FrontSide("Не та лицевая сторона его");
         HeatAndNoise heatAndNoise = new HeatAndNoise("Не та жара и шум");
-        People people = new People(List.of("Генри", "Алекс"), frontSide, new Corner(10.0, 20.0));
+        People people = new People(List.of("Генри", "Алекс"), frontSide, "Не они");
         assertThrows(IncorrectActionParticipantException.class,() -> bombing.resume(bombing.getName()));
-        assertThrows(IncorrectActionParticipantException.class,() -> computerBank.destroy(computerBank.getBankName(), bombing));
+        assertThrows(IncorrectActionParticipantException.class,() -> computerBank.destroy(bombing));
         assertThrows(IncorrectActionParticipantException.class,() -> frontSide.melt(900.0, computerBank));
-        assertThrows(IncorrectActionParticipantException.class,() -> heatAndNoise.being(heatAndNoise.getName()));
-        assertThrows(IncorrectActionParticipantException.class,() -> people.act("Не они"));
+        assertThrows(IncorrectActionParticipantException.class, heatAndNoise::being);
+        assertThrows(IncorrectActionParticipantException.class, people::act);
     }
 
     @Test
     public void testOnlyOnePerson() throws Exception {
-        Corner corner = new Corner(10.0, 20.0);
-        People people = new People(List.of("Генри"), new FrontSide("Лицевая сторона его"), corner);
-        assertThrows(NotEnoughPeopleException.class, () -> people.act("Они"));
+        People people = new People(List.of("Генри"), new FrontSide("Лицевая сторона его"), "Они");
+        assertThrows(NotEnoughPeopleException.class, people::act);
     }
 
     @Test
     public void testStrangeState() throws Exception {
-        FrontSide frontSide = new FrontSide("Лицевая сторона его");
-
-        Corner corner = new Corner(10.0, 20.0);
-        People people = new People(List.of("Генри", "Алекс"), frontSide, corner);
-
-        assertThrows(NoStateForSituationException.class, () -> people.act("Они"));
+        FrontSide frontSide = new FrontSide("Лицевая сторона его", new Metal(0.0, 0.0), new Corner(10.0, 20.0));
+        People people = new People(List.of("Генри", "Алекс"), frontSide, "Они");
+        assertThrows(NoStateForSituationException.class, people::act);
         frontSide.setMelted(true);
-        assertThrows(NoStateForSituationException.class, () -> people.act("Они"));
+        assertThrows(NoStateForSituationException.class, people::act);
         frontSide.setMetalFlowing(true);
         frontSide.setTemperature(100.0);
-        assertThrows(NoStateForSituationException.class, () -> people.act("Они"));
+        assertThrows(NoStateForSituationException.class, people::act);
         frontSide.setTemperature(1400.0);
-        assertThrows(NoStateForSituationException.class, () -> people.act("Они"));
+        assertThrows(NoStateForSituationException.class, people::act);
 
     }
 
